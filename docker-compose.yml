@@ -1,0 +1,72 @@
+# Runs the solution on one vector database, chosen with a flag. Recommended: use the wrapper.
+#
+#   ./run.sh --backend weaviate compare       # Weaviate: start it, then compare all six strategies
+#   ./run.sh --backend pgvector compare       # PostgreSQL + pgvector: same, on Postgres
+#   ./run.sh --backend pgvector ask "What is the penalty in month 20?" --strategy markdown
+#   docker compose down -v                    # stop everything and delete the database volumes
+#
+# The same flag works without the wrapper. Start the database for its profile, then run the app:
+#
+#   docker compose --profile pgvector up -d --wait postgres
+#   docker compose run --rm -e VECTOR_BACKEND=pgvector app python run.py compare --backend pgvector
+#
+# Each database is a compose profile, so only the chosen one starts. The app has no depends_on.
+
+services:
+  weaviate:
+    profiles: ["weaviate"]
+    image: cr.weaviate.io/semitechnologies/weaviate:1.30.5
+    ports:
+      - "8085:8080"   # HTTP (Weaviate listens on 8080 inside the container)
+      - "50051:50051" # gRPC
+    environment:
+      QUERY_DEFAULTS_LIMIT: "25"
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: "true"
+      PERSISTENCE_DATA_PATH: /var/lib/weaviate
+      DEFAULT_VECTORIZER_MODULE: none
+      ENABLE_API_BASED_MODULES: "false"
+      CLUSTER_HOSTNAME: node1
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/v1/.well-known/ready"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  postgres:
+    # PostgreSQL with pgvector. From DBeaver: localhost:5433, database/user/password all "ragkit".
+    # Port 5433 on the host avoids clashing with other Postgres servers on 5432.
+    profiles: ["pgvector"]
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: ragkit
+      POSTGRES_PASSWORD: ragkit
+      POSTGRES_DB: ragkit
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ragkit -d ragkit"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  app:
+    build:
+      # Context is the atlas folder, so the Dockerfile can reach ragkit/ and loan_prepayment_penalty/.
+      context: ..
+      dockerfile: loan_prepayment_penalty/Dockerfile
+    environment:
+      VECTOR_BACKEND: ${VECTOR_BACKEND:-weaviate}   # set by run.sh / run.ps1 from --backend
+      WEAVIATE_URL: http://weaviate:8080
+      PGVECTOR_DSN: postgresql://ragkit:ragkit@postgres:5432/ragkit
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}   # only needed for --mode live
+    volumes:
+      - ./results:/app/results              # comparison tables and per-strategy reports appear here
+    command: ["python", "run.py", "compare"]
+
+volumes:
+  weaviate_data:
+  postgres_data:

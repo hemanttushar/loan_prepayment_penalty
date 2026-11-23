@@ -1,0 +1,11 @@
+{"question": "Under the personal loan agreement template, what is the full prepayment penalty if the loan is repaid in month 20?", "reference": "A penalty of 2% of the outstanding principal, because full prepayment in months 0 to 36 is charged at 2%."}
+{"question": "Under the personal loan agreement template, how much can a borrower prepay each year without penalty?", "reference": "Up to 20% of the original principal in each calendar year, without penalty."}
+{"question": "How many business days written notice must a borrower give before a full prepayment?", "reference": "At least 10 business days, in writing, stating the intended payoff date."}
+{"question": "For a personal loan originated in August 2024, what is the penalty if it is fully repaid in month 30?", "reference": "0%. The July 2024 amendment waives the penalty for full prepayment after month 24."}
+{"question": "For a personal loan originated in August 2024, what is the penalty if it is fully repaid in month 10?", "reference": "1.5% of the outstanding principal, under the July 2024 amendment for full prepayment in months 0 to 24."}
+{"question": "What is the early repayment charge on a fixed-rate mortgage in year 2?", "reference": "3% of the amount repaid."}
+{"question": "Is there an early repayment charge on a variable-rate mortgage?", "reference": "No. A variable-rate mortgage has no early repayment charge at any time."}
+{"question": "How much can a mortgage customer overpay each year without an early repayment charge?", "reference": "Up to 10% of the outstanding balance per year."}
+{"question": "What is the late fee on an overdue personal loan instalment?", "reference": "5% of the overdue instalment, charged after the 10-day grace period."}
+{"question": "What is the interest rate on a car loan from Harbor Point Lending?", "reference": "The documents do not state this. The assistant should say it does not know."}
+{"question": "Does Harbor Point Lending charge a penalty on credit card balances?", "reference": "The documents do not cover credit cards. The assistant should say it does not know."}

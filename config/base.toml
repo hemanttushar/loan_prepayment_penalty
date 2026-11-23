@@ -1,0 +1,65 @@
+# Shared settings for every chunking strategy. The solution overrides [chunking] strategy per run.
+
+[llm]
+provider = "openai_compatible"
+model = "openai/gpt-5.6-luna"                      # OpenRouter slug
+base_url = "https://openrouter.ai/api/v1"
+api_key_env = "OPENROUTER_API_KEY"                 # live mode only
+
+[embedding]
+provider = "openai_compatible"   # live mode only; offline mode uses ragkit's HashEmbedder
+model = "openai/text-embedding-3-small"            # OpenRouter slug
+base_url = "https://openrouter.ai/api/v1"
+api_key_env = "OPENROUTER_API_KEY"
+
+[parsing]
+pdf_parser = "pypdf"
+
+[chunking]
+strategy = "recursive"           # replaced per run
+chunk_size = 120                 # measured in words (tokenizer below)
+chunk_overlap = 20
+min_chunk_size = 10
+tokenizer = "words"              # no tiktoken download needed
+fallback = ["recursive", "fixed"]
+validation = "repair"
+parent_size = 300                # parent_child
+child_size = 80                  # parent_child
+window_sentences = 1             # sentence_window
+semantic_breakpoint = "percentile"
+semantic_percentile = 90.0       # semantic
+
+[vectorstore]
+backend = "weaviate"             # replaced per run by --backend (or VECTOR_BACKEND)
+path = ".ragkit"                 # unused by these backends, kept for clarity
+collection = "loanpenalty"       # replaced per strategy
+
+# One section per backend. Only the chosen one is used.
+[vectorstore.weaviate]
+url = "http://localhost:8085"
+grpc_port = 50051
+
+[vectorstore.pgvector]
+dsn_env = "PGVECTOR_DSN"         # environment variable holding the connection string
+schema = "public"
+
+[retrieval]
+top_k = 4
+candidate_k = 12
+expand_to_parent = true          # small-to-big for sentence_window and parent_child
+
+[evals]
+metrics = [
+  "faithfulness",
+  "answer_relevance",
+  "answer_relevance_semantic",
+  "context_relevance",
+  "groundedness",
+  "context_precision",
+  "context_recall",
+  "noncommittal",
+]
+
+[evals.thresholds]
+faithfulness = 0.7
+context_recall = 0.6

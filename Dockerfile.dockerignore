@@ -1,0 +1,13 @@
+# Read by BuildKit for loan_prepayment_penalty/Dockerfile. Only ragkit and this folder are sent.
+*
+!ragkit
+!loan_prepayment_penalty
+
+**/__pycache__
+**/.pytest_cache
+**/.ruff_cache
+**/.venv
+**/.ragkit
+**/eval_report
+loan_prepayment_penalty/results
+loan_prepayment_penalty/.env

@@ -1,0 +1,29 @@
+HARBOR POINT HOME LOANS: MORTGAGE TERMS (2023 EDITION)
+Synthetic document for testing. Harbor Point Home Loans is a fictional lender.
+
+Section 1. Loan Overview
+The mortgage is secured on the property named in the offer. The term is up to 30 years. Monthly payments include interest and principal.
+
+Section 2. Rate Types
+Customers choose either a fixed-rate mortgage or a variable-rate mortgage. The fixed period is set in the offer.
+
+Section 7. Early Repayment Charges
+
+7.1 Fixed-rate mortgages.
+An early repayment charge applies when all or part of a fixed-rate mortgage is repaid during the fixed period. The charge is a percentage of the amount repaid:
+  - Year 1 and year 2: 3% of the amount repaid.
+  - Year 3: 2% of the amount repaid.
+  - Year 4: 1% of the amount repaid.
+  - From year 5: no charge.
+
+7.2 Variable-rate mortgages.
+There is no early repayment charge on a variable-rate mortgage at any time.
+
+7.3 Overpayment allowance.
+Each year, the customer may overpay up to 10% of the outstanding balance without an early repayment charge. Any overpayment above this allowance is charged as in section 7.1.
+
+7.4 Porting.
+A fixed-rate mortgage may be ported to a new property if the lender approves the new property. No early repayment charge applies to a port that is completed within 90 days of the sale of the old property.
+
+Section 8. Arrears
+If a payment is missed, the lender contacts the customer. Arrears interest is charged at the mortgage rate plus 2%.
